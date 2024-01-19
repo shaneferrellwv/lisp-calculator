@@ -44,7 +44,6 @@ public final class Calculator {
             case "mod"      -> Functions.mod(arguments);
             case "sin"      -> Functions.sin(arguments);
             case "cos"      -> Functions.cos(arguments);
-            //TODO: Define remaining functions
             default -> throw new CalculateException("Unknown function " + ast.name() + ".");
         };
     }

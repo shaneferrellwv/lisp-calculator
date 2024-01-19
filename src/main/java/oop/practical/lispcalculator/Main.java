@@ -5,19 +5,12 @@ import oop.practical.lispcalculator.calculator.Calculator;
 import oop.practical.lispcalculator.lisp.Lisp;
 import oop.practical.lispcalculator.lisp.ParseException;
 
-//import java.io.ByteArrayInputStream; // TODO: REMOVE BEFORE SUBMISSION !
-//import java.io.InputStream; // TODO: REMOVE BEFORE SUBMISSION !
 import java.util.Scanner;
 
 public final class Main {
 
     public static void main(String[] args) {
         var calculator = new Calculator();
-
-//        String simulatedInput = "(sqrt 25)"; // TODO: REMOVE BEFORE SUBMISSION !
-//        InputStream simulatedIn = new ByteArrayInputStream(simulatedInput.getBytes()); // TODO: REMOVE BEFORE SUBMISSION !
-//        Scanner scanner = new Scanner(simulatedIn); // TODO: REMOVE BEFORE SUBMISSION !
-
         var scanner = new Scanner(System.in);
         while (true) {
             var input = scanner.nextLine();

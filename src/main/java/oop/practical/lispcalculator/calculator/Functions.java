@@ -1,10 +1,9 @@
 package oop.practical.lispcalculator.calculator;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.math.RoundingMode;
 import java.util.List;
-
-import static java.lang.Integer.MAX_VALUE;
 
 final class Functions {
 
@@ -64,8 +63,9 @@ final class Functions {
         else {
             var base = arguments.getFirst();
             var exponent = arguments.getLast();
-            if (exponent.scale() != 0 || exponent.intValue() < 0)
-                throw new CalculateException(("Function pow's second argument must be a non-negative integer"));
+            if (exponent.scale() != 0 || exponent.intValue() < 0 ||             // exponent is fractional or negative
+                exponent.compareTo(new BigDecimal(Integer.MAX_VALUE)) > 0)      // exponent is too large to convert to int
+                throw new CalculateException("Function pow's second argument must be a non-negative integer.");
             var result = BigDecimal.ONE;
             for (int i = 0; i < exponent.intValue(); i++) {
                 result = result.multiply(base);
@@ -84,8 +84,7 @@ final class Functions {
             if (number.equals(BigDecimal.ZERO)) {
                 return BigDecimal.ZERO;
             }
-            var result = new BigDecimal(Math.sqrt(number.doubleValue()));
-            return result.setScale(number.scale(), RoundingMode.HALF_EVEN);
+            return number.sqrt(new MathContext(number.precision(), RoundingMode.HALF_EVEN));
         }
     }
 
@@ -110,7 +109,7 @@ final class Functions {
         }
         var remainder = dividend.remainder(divisor);
         if (remainder.compareTo(BigDecimal.ZERO) < 0) {
-            remainder = remainder.add(divisor);
+            remainder = remainder.multiply(new BigDecimal("-1"));
         }
         return remainder;
     }
@@ -118,24 +117,18 @@ final class Functions {
     static BigDecimal sin(List<BigDecimal> arguments) throws CalculateException {
         if (arguments.size() != 1)
             throw new CalculateException("Function sin requires exactly one argument");
-        var doubleValue = arguments.getFirst().doubleValue();
-        var bigDecimalValue = new BigDecimal(doubleValue);
-        if (!bigDecimalValue.equals(arguments.getFirst())) {
+        var number = arguments.getFirst();
+        if (number.compareTo(new BigDecimal(Double.MAX_VALUE)) > 0)
             throw new CalculateException("Value cannot be represented by a double.");
-        }
-        return new BigDecimal(Math.sin(doubleValue));
+        return BigDecimal.valueOf(Math.sin(number.doubleValue()));
     }
 
     static BigDecimal cos(List<BigDecimal> arguments) throws CalculateException {
         if (arguments.size() != 1)
-            throw new CalculateException("Function cos requires exactly one argument");
-        var doubleValue = arguments.getFirst().doubleValue();
-        var bigDecimalValue = new BigDecimal(doubleValue);
-        if (!bigDecimalValue.equals(arguments.getFirst())) {
+            throw new CalculateException("Function sin requires exactly one argument");
+        var number = arguments.getFirst();
+        if (number.compareTo(new BigDecimal(Double.MAX_VALUE)) > 0)
             throw new CalculateException("Value cannot be represented by a double.");
-        }
-        return new BigDecimal(Math.cos(doubleValue));
+        return BigDecimal.valueOf(Math.cos(number.doubleValue()));
     }
-
-    // TODO: Define and implement the other functions.
 }
