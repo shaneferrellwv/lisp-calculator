@@ -64,7 +64,8 @@ final class Functions {
             var base = arguments.getFirst();
             var exponent = arguments.getLast();
             if (exponent.scale() != 0 || exponent.intValue() < 0 ||             // exponent is fractional or negative
-                exponent.compareTo(new BigDecimal(Integer.MAX_VALUE)) > 0)      // exponent is too large to convert to int
+                exponent.compareTo(new BigDecimal(Integer.MAX_VALUE)) > 0 ||    // exponent is too large to convert to int
+                exponent.compareTo(new BigDecimal(Integer.MIN_VALUE)) < 0)      // exponent is too negative to convert to int
                 throw new CalculateException("Function pow's second argument must be a non-negative integer.");
             var result = BigDecimal.ONE;
             for (int i = 0; i < exponent.intValue(); i++) {
@@ -109,7 +110,7 @@ final class Functions {
         }
         var remainder = dividend.remainder(divisor);
         if (remainder.compareTo(BigDecimal.ZERO) < 0) {
-            remainder = remainder.multiply(new BigDecimal("-1"));
+            remainder = remainder.add(divisor);
         }
         return remainder;
     }
@@ -118,7 +119,9 @@ final class Functions {
         if (arguments.size() != 1)
             throw new CalculateException("Function sin requires exactly one argument");
         var number = arguments.getFirst();
-        if (number.compareTo(new BigDecimal(Double.MAX_VALUE)) > 0)
+        if (number.compareTo(new BigDecimal(Double.MAX_VALUE)) > 0 ||           // argument too large to convert to double
+            number.compareTo(BigDecimal.valueOf(-Double.MAX_VALUE)) < 0 ||      // argument too negative to convert to double
+            number.compareTo(BigDecimal.valueOf(number.doubleValue())) != 0)    // argument too precise to convert to double
             throw new CalculateException("Value cannot be represented by a double.");
         return BigDecimal.valueOf(Math.sin(number.doubleValue()));
     }
@@ -127,7 +130,9 @@ final class Functions {
         if (arguments.size() != 1)
             throw new CalculateException("Function sin requires exactly one argument");
         var number = arguments.getFirst();
-        if (number.compareTo(new BigDecimal(Double.MAX_VALUE)) > 0)
+        if (number.compareTo(new BigDecimal(Double.MAX_VALUE)) > 0 ||           // argument too large to convert to double
+            number.compareTo(BigDecimal.valueOf(-Double.MAX_VALUE)) < 0 ||      // argument too negative to convert to double
+            number.compareTo(BigDecimal.valueOf(number.doubleValue())) != 0)    // argument too precise to convert to double
             throw new CalculateException("Value cannot be represented by a double.");
         return BigDecimal.valueOf(Math.cos(number.doubleValue()));
     }
