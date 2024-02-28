@@ -1,4 +1,4 @@
-# Lisp-Inspired Calculator in Java
+# Lisp-Inspired Calculator
 
 This project is a Lisp-inspired calculator implemented in Java, utilizing the simplicityof Lisp's parenthesized expressions for mathematical operations. The calculator leverages Java's `BigDecimal` class for arbitrary-precision arithmetic, ensuring high precision and scalability in calculations.
 
