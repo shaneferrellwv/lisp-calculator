@@ -30,7 +30,7 @@ Ensure you have Java installed on your machine. This project is built and tested
 1. Clone the repository to your local machine:
 
 ```
-git clone https://your-repository-url-here
+git clone https://github.com/shaneferrellwv/lisp-calculator
 ```
 2. Navigate to the project directory:
 
@@ -41,11 +41,7 @@ cd lisp-calculator
 
 ### Usage
 
-1. Compile the Java files in your project directory. For example:
-
-```
-javac Calculator.java
-```
+1. Compile the Java files in your project directory. 
 
 2. Run the Calculator program with your desired expression. For example:
 
